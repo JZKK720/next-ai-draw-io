@@ -6,12 +6,15 @@ services:
     build:
       context: .
       args:
-        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8231
-        # Uncomment below for subdirectory deployment
-        # - NEXT_PUBLIC_BASE_PATH=/nextaidrawio
+        # Use DRAWIO_BASE_URL env var (defaults to localhost for local dev)
+        # Set to your domain when hosting: e.g., https://your-domain.com:8231 or https://your-domain.com/drawio
+        - NEXT_PUBLIC_DRAWIO_BASE_URL=${DRAWIO_BASE_URL:-http://localhost:8231}
+        # For subdirectory deployment, set NEXT_PUBLIC_BASE_PATH env var
+        # e.g., /nextaidrawio
+        - NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-}
     ports: ["3201:3000"]
     env_file: .env
-    # environment:
-    #   # For subdirectory deployment, uncomment and set your path:
-    #   NEXT_PUBLIC_BASE_PATH: /nextaidrawio
+    environment:
+      # Optional: Override build-time env vars
+      NEXT_PUBLIC_DRAWIO_BASE_URL: ${DRAWIO_BASE_URL:-http://localhost:8231}
     depends_on: [drawio]
