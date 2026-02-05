@@ -38,6 +38,8 @@ https://github.com/user-attachments/assets/9d60a3e8-4a1c-4b5e-acbb-26af2d3eabd1
     - [Desktop Application](#desktop-application)
     - [Run with Docker](#run-with-docker)
     - [Installation](#installation)
+  - [Ports](#ports)
+  - [Environment Checklist](#environment-checklist)
   - [Deployment](#deployment)
     - [Deploy to EdgeOne Pages](#deploy-to-edgeone-pages)
     - [Deploy on Vercel](#deploy-on-vercel)
@@ -171,6 +173,26 @@ npm run dev
 ```
 
 3. Open [http://localhost:6002](http://localhost:6002) in your browser to see the application.
+
+## Ports
+
+| Port | Purpose | References |
+| --- | --- | --- |
+| 3201 → 3000 | Next.js app host→container mapping in Compose (container still on 3000) | [Dockerfile](./Dockerfile#L58-L66), [docker-compose.yml](./docker-compose.yml#L1-L14) |
+| 8231 → 8080 | diagrams.net/draw.io host→container mapping in Compose; base URL updated accordingly | [docker-compose.yml](./docker-compose.yml#L1-L8), [docs/en/offline-deployment.md](./docs/en/offline-deployment.md#L14-L29), [packages/mcp-server/README.md](./packages/mcp-server/README.md#L177) |
+| 6002 | Dev UI URL; Electron dev target; Playwright base URL when not CI | [README.md](./README.md#L170-L176), [electron/main/index.ts](./electron/main/index.ts#L44-L63), [playwright.config.ts](./playwright.config.ts#L14-L21) |
+| 6001 | Playwright base URL when CI=true | [playwright.config.ts](./playwright.config.ts#L14-L21) |
+| 61337 | Preferred packaged Electron port (falls back sequentially) | [electron/main/port-manager.ts](./electron/main/port-manager.ts#L9-L59) |
+| 11434 | Ollama default base URL (external service) | [lib/types/model-config.ts](./lib/types/model-config.ts#L103-L114), [env.example](./env.example#L61-L71) |
+| 8000 | SGLang default base URL (external service) | [lib/types/model-config.ts](./lib/types/model-config.ts#L117-L128), [env.example](./env.example#L74-L83) |
+
+## Environment Checklist
+
+- Set `AI_PROVIDER` and matching `AI_MODEL`; add the provider’s API key (e.g., `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `AWS_ACCESS_KEY_ID/SECRET`, etc.). See [env.example](./env.example#L1-L120).
+- If self-hosting draw.io, set `NEXT_PUBLIC_DRAWIO_BASE_URL` to your draw.io URL (Compose maps to `http://localhost:8231`).
+- If serving under a subpath, set `NEXT_PUBLIC_BASE_PATH` (e.g., `/nextaidrawio`).
+- To disable private/localhost fetches, set `ALLOW_PRIVATE_URLS=false`.
+- For PDF uploads, leave `ENABLE_PDF_INPUT` default or set `false` to disable.
 
 ## Deployment
 

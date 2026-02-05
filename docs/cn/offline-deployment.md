@@ -13,13 +13,13 @@
 services:
   drawio:
     image: jgraph/drawio:latest
-    ports: ["8080:8080"]
+    ports: ["8231:8080"]
   next-ai-draw-io:
     build:
       context: .
       args:
-        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8080
-    ports: ["3000:3000"]
+        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8231
+    ports: ["3201:3000"]
     env_file: .env
     depends_on: [drawio]
 ```
@@ -32,7 +32,7 @@ services:
 
 | 场景 | URL 值 |
 |----------|-----------|
-| 本地主机 (Localhost) | `http://localhost:8080` |
-| 远程/服务器 | `http://YOUR_SERVER_IP:8080` |
+| 本地主机 (Localhost) | `http://localhost:8231` |
+| 远程/服务器 | `http://YOUR_SERVER_IP:8231` |
 
 **切勿使用** Docker 内部别名（如 `http://drawio:8080`），因为浏览器无法解析它们。

@@ -13,13 +13,13 @@
 services:
   drawio:
     image: jgraph/drawio:latest
-    ports: ["8080:8080"]
+    ports: ["8231:8080"]
   next-ai-draw-io:
     build:
       context: .
       args:
-        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8080
-    ports: ["3000:3000"]
+        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8231
+    ports: ["3201:3000"]
     env_file: .env
     depends_on: [drawio]
 ```
@@ -32,7 +32,7 @@ services:
 
 | シナリオ | URL の値 |
 |----------|-----------|
-| ローカルホスト | `http://localhost:8080` |
-| リモート/サーバー | `http://YOUR_SERVER_IP:8080` |
+| ローカルホスト | `http://localhost:8231` |
+| リモート/サーバー | `http://YOUR_SERVER_IP:8231` |
 
 **`http://drawio:8080` のような Docker 内部のエイリアスは絶対に使用しないでください。** ブラウザはこれらを名前解決できません。

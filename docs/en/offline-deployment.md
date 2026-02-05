@@ -13,13 +13,13 @@ Deploy Next AI Draw.io offline by self-hosting draw.io to replace `embed.diagram
 services:
   drawio:
     image: jgraph/drawio:latest
-    ports: ["8080:8080"]
+    ports: ["8231:8080"]
   next-ai-draw-io:
     build:
       context: .
       args:
-        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8080
-    ports: ["3000:3000"]
+        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8231
+    ports: ["3201:3000"]
     env_file: .env
     depends_on: [drawio]
 ```
@@ -32,8 +32,8 @@ services:
 
 | Scenario | URL Value |
 |----------|-----------|
-| Localhost | `http://localhost:8080` |
-| Remote/Server | `http://YOUR_SERVER_IP:8080` |
+| Localhost | `http://localhost:8231` |
+| Remote/Server | `http://YOUR_SERVER_IP:8231` |
 
 **Do NOT use** internal Docker aliases like `http://drawio:8080`; the browser cannot resolve them.
 

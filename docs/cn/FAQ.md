@@ -27,13 +27,13 @@
 services:
   drawio:
     image: jgraph/drawio:latest
-    ports: ["8080:8080"]
+    ports: ["8231:8080"]
   next-ai-draw-io:
     build:
       context: .
       args:
-        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://你的服务器IP:8080/
-    ports: ["3000:3000"]
+        - NEXT_PUBLIC_DRAWIO_BASE_URL=http://你的服务器IP:8231/
+    ports: ["3201:3000"]
     env_file: .env
 ```
 
