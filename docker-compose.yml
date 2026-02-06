@@ -12,40 +12,9 @@ services:
         - NEXT_PUBLIC_DRAWIO_BASE_URL=http://localhost:8231
         # Uncomment below for subdirectory deployment
         # - NEXT_PUBLIC_BASE_PATH=/nextaidrawio
-    ports:
-      - "3201:3000"
+    ports: ["3201:3000"]
     env_file: .env
-    environment:
-      # Ensure these are explicitly set for Docker environment
-      AI_PROVIDER: ollama
-      AI_MODEL: gpt-oss:20b
-      # Ollama configuration
-      OLLAMA_BASE_URL: http://host.docker.internal:11434
-      # LM Studio configuration (OpenAI-compatible, no API key needed)
-      LMSTUDIO_BASE_URL: http://host.docker.internal:14321/v1
-      # Security - allow local/private URLs for local LLMs
-      ALLOW_PRIVATE_URLS: "true"
-      AI_MODELS_CONFIG_PATH: /app/ai-models.json
-    volumes:
-      # Mount the ai-models.json for multi-model configuration
-      - ./ai-models.json:/app/ai-models.json:ro
-    # Required for host.docker.internal to work on Linux
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    # Alternative: Use host network mode (uncomment if host.docker.internal doesn't work)
-    # network_mode: host
-    depends_on:
-      - drawio
-    restart: unless-stopped
-
-# If Ollama is running in Docker, add it as a service:
-#  ollama:
-#    image: ollama/ollama:latest
-#    ports:
-#      - "11434:11434"
-#    volumes:
-#      - ollama_data:/root/.ollama
-#    restart: unless-stopped
-#
-# volumes:
-#   ollama_data:
+    # environment:
+    #   # For subdirectory deployment, uncomment and set your path:
+    #   NEXT_PUBLIC_BASE_PATH: /nextaidrawio
+    depends_on: [drawio]

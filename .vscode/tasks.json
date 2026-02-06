@@ -1,0 +1,71 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build: Local (localhost:8231)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["build.sh", "localhost:8231"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Build: CubeCloud (idrawio.cubecloud.io)",
+      "type": "shell",
+      "command": "bash",
+      "args": ["build.sh", "idrawio.cubecloud.io"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Build: Custom Domain",
+      "type": "shell",
+      "command": "bash",
+      "args": ["build.sh", "${input:domain}"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Stop Containers",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": ["down"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "View Logs",
+      "type": "shell",
+      "command": "docker-compose",
+      "args": ["logs", "-f"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "domain",
+      "type": "promptString",
+      "description": "Enter domain (e.g., idrawio.cubecloud.io)",
+      "default": "idrawio.cubecloud.io"
+    }
+  ]
+}
